@@ -840,7 +840,7 @@ pairs.forEach(pair => {
                 <div className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   <h1 className="text-lg sm:text-xl font-bold mb-1">CTS기독교TV</h1>
                 </div>
-                <h2 className="text-base sm:text-lg font-bold text-blue-700 mb-2">🎯 업무 성향 테스트</h2>
+                <h2 className="text-base sm:text-lg font-bold mb-2">🎯 업무 성향 테스트</h2>
                 <p className="text-sm text-gray-600 leading-relaxed">
                   나의 업무 스타일을 알아보고<br/>
                   <span className="font-semibold text-blue-600">팀 내에서의 역할을 발견해보세요</span>
@@ -952,17 +952,17 @@ pairs.forEach(pair => {
                 </h2>
               </div>
               
-<div className="relative mb-3 sm:mb-4">
-  <h1 className="relative z-10 text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-    {result?.nickname || '업무 전문가'}
-  </h1>
-</div>
-              
-<div className="relative mb-3 sm:mb-4">
-  <div className="relative z-10 text-4xl sm:text-5xl animate-bounce">
-    {result?.emoji || '💼'}
-  </div>
-</div>
+              <div className="relative mb-3 sm:mb-4">
+                <h1 className="relative z-10 text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
+                  {result?.nickname || '업무 전문가'}
+                </h1>
+              </div>
+                            
+              <div className="relative mb-3 sm:mb-4">
+                <div className="relative z-10 text-4xl sm:text-5xl animate-bounce">
+                  {result?.emoji || '💼'}
+                </div>
+              </div>
               
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
                 <span className="text-white/80 text-xs sm:text-sm font-medium">TYPE</span>
@@ -973,9 +973,9 @@ pairs.forEach(pair => {
               </div>
             </div>
 
-            <div className="bg-white border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
+            <div className="bg-gradient-to-r from-slate-50/80 to-gray-50/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
               <h3 className="font-bold text-slate-800 mb-3 sm:mb-4 text-base sm:text-lg text-center">
-                📊 나의 업무 성향 분석 (20문항 기준)
+                📊 나의 업무 성향 분석
               </h3>
               
               <div className="space-y-2 sm:space-y-3">
@@ -1010,20 +1010,25 @@ pairs.forEach(pair => {
               </div>
             </div>
 
-            {result?.description && result.description.length > 0 && (
-              <div className="bg-[#F6F8FE] border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
-                <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
-                  🎯 {result.nickname} 특징
-                </h3>
-                <div className="space-y-1 sm:space-y-2">
-                  {result.description.map((desc, index) => (
-                    <p key={index} className="text-xs sm:text-sm text-blue-700 leading-relaxed">
-                      {desc}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            )}
+{result?.description && result.description.length > 0 && (
+  <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
+    <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
+      🎯 {result.nickname} 특징
+    </h3>
+    <div className="space-y-2 sm:space-y-3 pl-2 sm:pl-3">
+      {result.description.map((desc, index) => (
+        <p
+          key={index}
+          className="text-xs sm:text-sm text-blue-700 leading-relaxed"
+        >
+          {desc}
+        </p>
+      ))}
+    </div>
+  </div>
+)}
+
+
 
             <div className="grid gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="bg-gradient-to-r from-green-100/90 to-emerald-100/90 backdrop-blur-sm border border-green-200/50 rounded-2xl p-3 sm:p-4">
@@ -1244,15 +1249,14 @@ pairs.forEach(pair => {
                 <span>이전</span>
               </button>
               
-              <button
-                onClick={resetTest}
-                className="flex items-center space-x-1 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 hover:scale-105 transition-all duration-300"
-              >
-                <span>🏠</span>
-                <span>처음으로</span>
-              </button>
-              
-              <div className="w-16 sm:w-20"></div>
+  <button
+    onClick={resetTest}
+    className="flex items-center space-x-1 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 hover:scale-105 transition-all duration-300"
+  >
+    <span>🏠</span>
+    <span>처음으로</span>
+  </button>
+
             </div>
           </div>
         </div>
