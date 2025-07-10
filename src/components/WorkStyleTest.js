@@ -1011,7 +1011,7 @@ pairs.forEach(pair => {
             </div>
 
             {result?.description && result.description.length > 0 && (
-              <div className="bg-white border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
+              <div className="bg-[#F6F8FE] border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
                 <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
                   🎯 {result.nickname} 특징
                 </h3>
