@@ -953,19 +953,18 @@ pairs.forEach(pair => {
               </div>
               
 <div className="relative mb-3 sm:mb-4">
-  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-3xl blur-lg transform scale-105"></div>
-  <h1 className="relative text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl opacity-30 z-0"></div>
+  <h1 className="relative z-10 text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
     {result?.nickname || '업무 전문가'}
   </h1>
 </div>
-
               
-              <div className="relative mb-3 sm:mb-4">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-indigo-400/20 to-purple-400/20 rounded-full blur-xl transform scale-110"></div>
-                <div className="relative text-4xl sm:text-5xl animate-bounce">
-                  {result?.emoji || '💼'}
-                </div>
-              </div>
+<div className="relative mb-3 sm:mb-4">
+  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-200 to-purple-200 opacity-20 z-0"></div>
+  <div className="relative z-10 text-4xl sm:text-5xl animate-bounce">
+    {result?.emoji || '💼'}
+  </div>
+</div>
               
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
                 <span className="text-white/80 text-xs sm:text-sm font-medium">TYPE</span>
