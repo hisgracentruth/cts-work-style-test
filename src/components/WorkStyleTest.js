@@ -973,7 +973,7 @@ pairs.forEach(pair => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-slate-50/80 to-gray-50/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
+            <div className="bg-white border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
               <h3 className="font-bold text-slate-800 mb-3 sm:mb-4 text-base sm:text-lg text-center">
                 📊 나의 업무 성향 분석 (20문항 기준)
               </h3>
@@ -1011,7 +1011,7 @@ pairs.forEach(pair => {
             </div>
 
             {result?.description && result.description.length > 0 && (
-              <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
+              <div className="bg-white border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
                 <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
                   🎯 {result.nickname} 특징
                 </h3>
