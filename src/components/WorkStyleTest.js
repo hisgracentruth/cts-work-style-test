@@ -1007,18 +1007,36 @@ const resultRef = useRef();
 
 const saveAsImage = useCallback(async () => {
   if (!resultRef.current) return;
-  await document.fonts.ready;
-  const canvas = await html2canvas(resultRef.current, {
-    backgroundColor: null,
-    scale: 1,                 // 🔽 고해상도 대신 안정된 위치
-    scrollY: -window.scrollY // 🔽 모바일 Safari에서 위치 보정
-  });
-  const imgData = canvas.toDataURL('image/png');
-  const link = document.createElement('a');
-  link.href = imgData;
-  link.download = 'workstyle-result.png';
-  link.click();
+
+  const originalOverflow = document.documentElement.style.overflow;
+  document.documentElement.style.overflow = 'hidden';
+
+  try {
+    await document.fonts.ready;
+
+    const canvas = await html2canvas(resultRef.current, {
+      scale: 2, // 적당한 고해상도로 설정
+      scrollX: 0,
+      scrollY: -window.scrollY,
+      windowWidth: document.documentElement.offsetWidth,
+      windowHeight: resultRef.current.scrollHeight,
+      useCORS: true,
+      allowTaint: true,
+    });
+
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'workstyle-result.png';
+    link.click();
+  } catch (error) {
+    alert('이미지 저장 중 오류가 발생했습니다.');
+    console.error(error);
+  } finally {
+    document.documentElement.style.overflow = originalOverflow;
+  }
 }, []);
+
+
 
 
   const startTest = useCallback(async () => {
@@ -1290,44 +1308,41 @@ pairs.forEach(pair => {
           </div>
         </div>
       ) : showResult && result ? (
-        <div className="min-h-screen flex items-center justify-center px-2 sm:px-4 py-2 relative z-10">
-          <div ref={resultRef} style={{
-  }}
-          className="result-container bg-white/95 backdrop-blur-xl border border-white/50 rounded-3xl p-3 sm:p-4 w-full max-w-4xl relative shadow-2xl">
-            <div className="text-center mb-4 sm:mb-6">
-              <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-200/50 rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-blue-600 text-sm">📺</span>
-                  <p className="text-xs sm:text-sm text-blue-600 font-semibold">
-                    CTS기독교TV {userInfo.department}
-                  </p>
-                </div>
-                <h2 className="text-sm sm:text-base font-bold text-blue-800">
-                  {userInfo.name}님의 업무 성향 결과
-                </h2>
-              </div>
-              
-              <div className="relative mb-3 sm:mb-4">
-                <h1 className="relative z-10 text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-                  {result?.nickname || '업무 전문가'}
-                </h1>
-              </div>
-                            
-              <div className="relative mb-3 sm:mb-4">
-                <div className="relative z-10 text-4xl sm:text-5xl animate-bounce">
-                  {result?.emoji || '💼'}
-                </div>
-              </div>
-              
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
-                <span className="text-white/80 text-xs sm:text-sm font-medium">TYPE</span>
-                <span className="text-sm sm:text-lg font-bold tracking-wider">
-                  {result?.code || 'WORK'}
-                </span>
-                <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-pulse"></div>
-              </div>
-            </div>
+<div className="min-h-screen flex items-center justify-center px-2 sm:px-4 py-2 relative z-10">
+  <div
+    ref={resultRef}
+    className="result-container bg-white/95 backdrop-blur-xl border border-white/50 rounded-3xl p-3 sm:p-4 w-full max-w-4xl relative shadow-2xl"
+  >
+    {/* 결과 상단 정보 */}
+    <div className="text-center mb-4 sm:mb-6">
+      <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-200/50 rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span className="text-blue-600 text-sm">📺</span>
+          <p className="text-xs sm:text-sm text-blue-600 font-semibold">
+            CTS기독교TV {userInfo.department}
+          </p>
+        </div>
+        <h2 className="text-sm sm:text-base font-bold text-blue-800">
+          {userInfo.name}님의 업무 성향 결과
+        </h2>
+      </div>
 
+      <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
+        {result?.nickname || '업무 전문가'}
+      </h1>
+
+      <div className="text-4xl sm:text-5xl animate-bounce">
+        {result?.emoji || '💼'}
+      </div>
+
+<div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+  <span className="text-white/80 text-xs sm:text-sm font-medium">TYPE</span>
+  <span className="text-sm sm:text-lg font-bold tracking-wider" style={{color:'#ffffff'}}>
+    {result?.code || 'WORK'}
+  </span>
+  <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-pulse"></div>
+</div>
+    </div>
             <div className="bg-gradient-to-r from-slate-50/80 to-gray-50/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
               <h3 className="font-bold text-slate-800 mb-3 sm:mb-4 text-base sm:text-lg text-center">
                 📊 나의 업무 성향 분석
@@ -1366,16 +1381,13 @@ pairs.forEach(pair => {
             </div>
 
 {result?.description && result.description.length > 0 && (
-  <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-100 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
-    <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
+  <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-100 rounded-2xl p-4 mb-4">
+    <h3 className="font-bold text-blue-800 mb-3 text-base sm:text-base">
       🎯 {result.nickname} 특징
     </h3>
-    <div className="space-y-2 sm:space-y-3 pl-2 sm:pl-3">
+    <div className="space-y-2">
       {result.description.map((desc, index) => (
-        <p
-          key={index}
-          className="text-xs sm:text-sm text-blue-700 leading-relaxed"
-        >
+        <p key={index} className="text-sm sm:text-sm text-blue-700 leading-relaxed pl-4">
           {desc}
         </p>
       ))}
@@ -1383,73 +1395,70 @@ pairs.forEach(pair => {
   </div>
 )}
 
-
-
-            <div className="grid gap-2 sm:gap-3 mb-3 sm:mb-4">
-              <div className="bg-gradient-to-r from-green-100/90 to-emerald-100/90 backdrop-blur-sm border border-green-200/50 rounded-2xl p-3 sm:p-4">
-                <h3 className="font-bold text-green-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <div className="grid gap-3 mb-4">
+              <div className="bg-gradient-to-r from-green-100/90 to-emerald-100/90 backdrop-blur-sm border border-green-200/50 rounded-2xl p-4">
+                <h3 className="font-bold text-green-700 mb-3 flex items-center text-base sm:text-base">
+                  <Sparkles className="w-5 h-5 mr-2" />
                   당신의 강점
                 </h3>
-                <div className="space-y-1 sm:space-y-2">
-{(result?.strengths || []).map((strength, index) => {
-  const [title, desc] = strength.split(' : ');
-  return (
-    <div key={index} className="text-xs sm:text-sm text-green-800 leading-relaxed mb-2">
-      <div className="flex items-start">
-        <span className="text-green-500 mr-3 flex-shrink-0">•</span>
-        <span className="font-bold">{title}</span>
-      </div>
-      {desc && <div className="pl-6 mt-0.5">{desc}</div>}
-    </div>
-  );
-})}
+                <div className="space-y-2">
+                  {(result?.strengths || []).map((strength, index) => {
+                    const [title, desc] = strength.split(' : ');
+                    return (
+                      <div key={index} className="text-sm sm:text-sm text-green-800 leading-relaxed mb-2">
+                        <div className="flex items-start">
+                          <span className="text-green-500 mr-3 flex-shrink-0">•</span>
+                          <span className="font-bold">{title}</span>
+                        </div>
+                        {desc && <div className="pl-6 mt-0.5">{desc}</div>}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-yellow-100/90 to-orange-100/90 backdrop-blur-sm border border-yellow-200/50 rounded-2xl p-3 sm:p-4">
-                <h3 className="font-bold text-yellow-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                  <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <div className="bg-gradient-to-r from-yellow-100/90 to-orange-100/90 backdrop-blur-sm border border-yellow-200/50 rounded-2xl p-4">
+                <h3 className="font-bold text-yellow-700 mb-3 flex items-center text-base sm:text-base">
+                  <Lightbulb className="w-5 h-5 mr-2" />
                   성장 포인트
                 </h3>
-                <div className="space-y-1 sm:space-y-2">
+                <div className="space-y-2">
                   {(result?.cautions || []).map((caution, index) => {
-  const [title, desc] = caution.split(' : ');
-  return (
-    <div key={index} className="text-xs sm:text-sm text-yellow-800 leading-relaxed mb-2">
-      <div className="flex items-start">
-        <span className="text-yellow-500 mr-3 flex-shrink-0">•</span>
-        <span className="font-bold">{title}</span>
-      </div>
-      {desc && <div className="pl-6 mt-0.5">{desc}</div>}
-    </div>
-  );
-})}
-
-</div>
-</div>
+                    const [title, desc] = caution.split(' : ');
+                    return (
+                      <div key={index} className="text-sm sm:text-sm text-yellow-800 leading-relaxed mb-2">
+                        <div className="flex items-start">
+                          <span className="text-yellow-500 mr-3 flex-shrink-0">•</span>
+                          <span className="font-bold">{title}</span>
+                        </div>
+                        {desc && <div className="pl-6 mt-0.5">{desc}</div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* 궁합 분석 섹션 */}
               {result?.compatibility && (
                 <div className="bg-gradient-to-r from-pink-100/90 to-rose-100/90 backdrop-blur-sm border border-pink-200/50 rounded-2xl p-4">
-                  <h3 className="font-bold text-pink-700 mb-3 flex items-center text-base">
+                  <h3 className="font-bold text-pink-700 mb-3 flex items-center text-base sm:text-base">
                     💕 업무 궁합 분석
                   </h3>
                   
                   {/* 최고 궁합 - 통일된 디자인 */}
                   <div className="space-y-2 mb-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">💯</span>
-                      <span className="font-bold text-pink-800 text-base">최고의 파트너</span>
+                      <span className="text-lg sm:text-xl">💯</span>
+                      <span className="font-bold text-pink-800 text-sm sm:text-base">최고의 파트너</span>
                     </div>
                     <div className="bg-white/70 rounded-lg p-3 border border-pink-200/50">
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">{result.compatibility.bestMatch.emoji}</span>
+                        <span className="text-xl sm:text-2xl">{result.compatibility.bestMatch.emoji}</span>
                         <div className="flex-1">
-                          <div className="font-semibold text-pink-800 text-sm">
+                          <div className="font-semibold text-pink-800 text-sm sm:text-sm">
                             {result.compatibility.bestMatch.type} - {result.compatibility.bestMatch.nickname}
                           </div>
-                          <div className="text-sm text-pink-600 mt-1">
+                          <div className="text-sm sm:text-sm text-pink-600 mt-1">
                             {result.compatibility.bestMatch.reason}
                           </div>
                         </div>
@@ -1461,18 +1470,18 @@ pairs.forEach(pair => {
                   {result.compatibility.goodMatch && result.compatibility.goodMatch.length > 0 && (
                     <div className="space-y-2 mb-3">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xl">💖</span>
-                        <span className="font-bold text-pink-700 text-base">좋은 파트너들</span>
+                        <span className="text-lg sm:text-xl">💖</span>
+                        <span className="font-bold text-pink-700 text-sm sm:text-base">좋은 파트너들</span>
                       </div>
                       {result.compatibility.goodMatch.slice(0, 2).map((match, index) => (
                         <div key={index} className="bg-white/50 rounded-lg p-3 border border-pink-100">
                           <div className="flex items-center gap-3">
-                            <span className="text-2xl">{match.emoji}</span>
+                            <span className="text-xl sm:text-2xl">{match.emoji}</span>
                             <div className="flex-1">
-                              <div className="font-semibold text-pink-800 text-sm">
+                              <div className="font-semibold text-pink-800 text-sm sm:text-sm">
                                 {match.type} - {match.nickname}
                               </div>
-                              <div className="text-sm text-pink-600 mt-1">
+                              <div className="text-sm sm:text-sm text-pink-600 mt-1">
                                 {match.reason}
                               </div>
                             </div>
@@ -1482,53 +1491,54 @@ pairs.forEach(pair => {
                     </div>
                   )}
 
-                  
                 </div>
               )}
 
-              <div className="bg-gradient-to-r from-purple-100/90 to-pink-100/90 backdrop-blur-sm border border-purple-200/50 rounded-2xl p-3 sm:p-4">
-                <h3 className="font-bold text-purple-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                  <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <div className="bg-gradient-to-r from-purple-100/90 to-pink-100/90 backdrop-blur-sm border border-purple-200/50 rounded-2xl p-4">
+                <h3 className="font-bold text-purple-700 mb-3 flex items-center text-base sm:text-base">
+                  <Target className="w-5 h-5 mr-2" />
                   추천 업무/역할
                 </h3>
-                <div className="space-y-1 sm:space-y-2">
+                <div className="space-y-2">
                   {(result?.recommendedRole || []).map((role, index) => {
-  const [title, desc] = role.split(' : ');
-  return (
-    <div key={index} className="text-xs sm:text-sm text-purple-800 leading-relaxed mb-2">
-      <div className="flex items-start">
-        <span className="text-purple-500 mr-3 flex-shrink-0">•</span>
-        <span className="font-bold">{title}</span>
-      </div>
-      {desc && <div className="pl-6 mt-0.5">{desc}</div>}
-    </div>
-  );
-})}
+                    const [title, desc] = role.split(' : ');
+                    return (
+                      <div key={index} className="text-sm sm:text-sm text-purple-800 leading-relaxed mb-2">
+                        <div className="flex items-start">
+                          <span className="text-purple-500 mr-3 flex-shrink-0">•</span>
+                          <span className="font-bold">{title}</span>
+                        </div>
+                        {desc && <div className="pl-6 mt-0.5">{desc}</div>}
+                      </div>
+                    );
+                  })}
+
 
 
                 </div>
               </div>
             </div>
 
-            <div className="text-center flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-center no-capture">
-              <button
-                onClick={resetTest}
-                className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm sm:text-base flex items-center gap-2 w-full sm:w-auto"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                다시 테스트하기
-              </button>
-              
-              <button
-                onClick={saveAsImage}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm sm:text-base flex items-center gap-2 w-full sm:w-auto"
-              >
-                <Download className="w-4 h-4" />
-                이미지로 저장하기(베타)
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="text-center flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-center no-capture mt-4">
+      <button
+        onClick={resetTest}
+        className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl font-semibold shadow-lg text-sm sm:text-base flex items-center gap-2"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        다시 테스트하기
+      </button>
+
+      <button
+        onClick={saveAsImage}
+        className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl font-semibold shadow-lg text-sm sm:text-base flex items-center gap-2"
+      >
+        <Download className="w-4 h-4" />
+        이미지로 저장하기(베타)
+      </button>
+    </div>
+  </div>
+</div>
+
       ) : (
         <div className="min-h-screen flex items-center justify-center px-2 sm:px-4 py-4 relative z-10">
           <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-3xl p-4 sm:p-6 w-full max-w-4xl relative shadow-2xl">
