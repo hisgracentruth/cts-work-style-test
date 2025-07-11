@@ -1350,10 +1350,10 @@ pairs.forEach(pair => {
                 
                 <div className="space-y-3">
                   {[
-                    { left: 'S', right: 'F', leftLabel: '체계적', rightLabel: '유연함', category: '업무 수행' },
-                    { left: 'A', right: 'N', leftLabel: '분석적', rightLabel: '직감적', category: '문제 접근' },
-                    { left: 'R', right: 'E', leftLabel: '신중함', rightLabel: '적극적', category: '소통 성향' },
-                    { left: 'I', right: 'M', leftLabel: '혁신적', rightLabel: '안정적', category: '성과 창출' }
+                    { left: 'S', right: 'F', leftLabel: '체계적', rightLabel: '유연함', category: '업무 수행', leftColor: 'bg-blue-500', rightColor: 'bg-green-500' },
+                    { left: 'A', right: 'N', leftLabel: '분석적', rightLabel: '직감적', category: '문제 접근', leftColor: 'bg-purple-500', rightColor: 'bg-orange-500' },
+                    { left: 'R', right: 'E', leftLabel: '신중함', rightLabel: '적극적', category: '소통 성향', leftColor: 'bg-teal-500', rightColor: 'bg-red-500' },
+                    { left: 'I', right: 'M', leftLabel: '혁신적', rightLabel: '안정적', category: '성과 창출', leftColor: 'bg-pink-500', rightColor: 'bg-indigo-500' }
                   ].map((pair, index) => (
                     <div key={index} className="bg-white rounded-xl p-4 border border-slate-300 shadow-sm">
                       <div className="flex justify-between items-center mb-2">
@@ -1363,11 +1363,11 @@ pairs.forEach(pair => {
                       </div>
                       <div className="relative h-8 bg-gray-200 rounded-full overflow-hidden border border-slate-300">
                         <div 
-                          className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-1000 ease-out"
+                          className={`absolute left-0 top-0 h-full ${pair.leftColor} transition-all duration-1000 ease-out`}
                           style={{ width: `${result.percentages?.[pair.left] || 30}%` }}
                         ></div>
                         <div 
-                          className="absolute right-0 top-0 h-full bg-green-500 transition-all duration-1000 ease-out"
+                          className={`absolute right-0 top-0 h-full ${pair.rightColor} transition-all duration-1000 ease-out`}
                           style={{ width: `${result.percentages?.[pair.right] || 70}%` }}
                         ></div>
                         <div className="absolute inset-0 flex justify-between items-center px-3">
@@ -1394,7 +1394,6 @@ pairs.forEach(pair => {
                   </div>
                 </div>
               )}
-
 
             <div className="grid gap-3 mb-4">
               <div className="bg-gradient-to-r from-green-100/90 to-emerald-100/90 backdrop-blur-sm border border-green-200/50 rounded-2xl p-4">
