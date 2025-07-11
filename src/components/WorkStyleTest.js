@@ -1343,57 +1343,58 @@ pairs.forEach(pair => {
   <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-pulse"></div>
 </div>
     </div>
-            <div className="bg-gradient-to-r from-slate-50/80 to-gray-50/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4">
-              <h3 className="font-bold text-slate-800 mb-3 sm:mb-4 text-base sm:text-lg text-center">
-                📊 나의 업무 성향 분석
-              </h3>
-              
-              <div className="space-y-2 sm:space-y-3">
-                {[
-                  { left: 'S', right: 'F', leftLabel: '체계적(Structured)', rightLabel: '유연함(Flexible)', category: '업무 수행', leftColor: 'from-blue-500 to-blue-600', rightColor: 'from-green-500 to-green-600' },
-                  { left: 'A', right: 'N', leftLabel: '분석적(Analytical)', rightLabel: '직감적(iNtuitive)', category: '문제 접근', leftColor: 'from-purple-500 to-purple-600', rightColor: 'from-orange-500 to-orange-600' },
-                  { left: 'R', right: 'E', leftLabel: '신중함(Reserved)', rightLabel: '적극적(Expressive)', category: '소통 성향', leftColor: 'from-teal-500 to-teal-600', rightColor: 'from-red-500 to-red-600' },
-                  { left: 'I', right: 'M', leftLabel: '혁신적(Initiative)', rightLabel: '안정적(Managing)', category: '성과 창출', leftColor: 'from-pink-500 to-pink-600', rightColor: 'from-indigo-500 to-indigo-600' }
-                ].map((pair, index) => (
-                  <div key={index} className="bg-white/70 rounded-xl p-3 sm:p-4 border border-slate-200/50">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-xs sm:text-xs font-bold text-gray-700">{pair.leftLabel}</span>
-                      <span className="text-sm sm:text-sm text-slate-600 font-semibold">{pair.category}</span>
-                      <span className="text-xs sm:text-xs font-bold text-gray-700">{pair.rightLabel}</span>
-                    </div>
-                    <div className="relative h-6 sm:h-8 bg-gradient-to-r from-gray-100 to-gray-100 rounded-full overflow-hidden border border-slate-200">
-                      <div 
-                        className={`absolute left-0 top-0 h-full bg-gradient-to-r ${pair.leftColor} transition-all duration-1000 ease-out`}
-                        style={{ width: `${result.percentages?.[pair.left] || 50}%` }}
-                      ></div>
-                      <div 
-                        className={`absolute right-0 top-0 h-full bg-gradient-to-r ${pair.rightColor} transition-all duration-1000 ease-out`}
-                        style={{ width: `${result.percentages?.[pair.right] || 50}%` }}
-                      ></div>
-                      <div className="absolute inset-0 flex justify-between items-center px-4 sm:px-5">
-                        <span className="text-xs sm:text-xs font-bold text-white drop-shadow-lg">{result.percentages?.[pair.left] || 50}%</span>
-                        <span className="text-xs sm:text-xs font-bold text-white drop-shadow-lg">{result.percentages?.[pair.right] || 50}%</span>
+              <div className="bg-slate-100 border border-slate-300 rounded-2xl p-4 mb-4">
+                <h3 className="font-bold text-slate-800 mb-4 text-base sm:text-lg text-center">
+                  📊 나의 업무 성향 분석
+                </h3>
+                
+                <div className="space-y-3">
+                  {[
+                    { left: 'S', right: 'F', leftLabel: '체계적', rightLabel: '유연함', category: '업무 수행' },
+                    { left: 'A', right: 'N', leftLabel: '분석적', rightLabel: '직감적', category: '문제 접근' },
+                    { left: 'R', right: 'E', leftLabel: '신중함', rightLabel: '적극적', category: '소통 성향' },
+                    { left: 'I', right: 'M', leftLabel: '혁신적', rightLabel: '안정적', category: '성과 창출' }
+                  ].map((pair, index) => (
+                    <div key={index} className="bg-white rounded-xl p-4 border border-slate-300 shadow-sm">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-bold text-gray-700">{pair.leftLabel}</span>
+                        <span className="text-sm text-slate-600 font-semibold">{pair.category}</span>
+                        <span className="text-sm font-bold text-gray-700">{pair.rightLabel}</span>
+                      </div>
+                      <div className="relative h-8 bg-gray-200 rounded-full overflow-hidden border border-slate-300">
+                        <div 
+                          className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-1000 ease-out"
+                          style={{ width: `${result.percentages?.[pair.left] || 30}%` }}
+                        ></div>
+                        <div 
+                          className="absolute right-0 top-0 h-full bg-green-500 transition-all duration-1000 ease-out"
+                          style={{ width: `${result.percentages?.[pair.right] || 70}%` }}
+                        ></div>
+                        <div className="absolute inset-0 flex justify-between items-center px-3">
+                          <span className="text-sm font-bold text-white drop-shadow-md">{result.percentages?.[pair.left] || 30}%</span>
+                          <span className="text-sm font-bold text-white drop-shadow-md">{result.percentages?.[pair.right] || 70}%</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-{result?.description && result.description.length > 0 && (
-  <div className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm border border-blue-100 rounded-2xl p-4 mb-4">
-    <h3 className="font-bold text-blue-800 mb-3 text-base sm:text-base">
-      🎯 {result.nickname} 특징
-    </h3>
-    <div className="space-y-2">
-      {result.description.map((desc, index) => (
-        <p key={index} className="text-sm sm:text-sm text-blue-700 leading-relaxed pl-4">
-          {desc}
-        </p>
-      ))}
-    </div>
-  </div>
-)}
+              {result?.description && result.description.length > 0 && (
+                <div className="bg-blue-100 border border-blue-300 rounded-2xl p-4 mb-4">
+                  <h3 className="font-bold text-blue-800 mb-3 text-base">
+                    🎯 {result.nickname} 특징
+                  </h3>
+                  <div className="space-y-2">
+                    {result.description.map((desc, index) => (
+                      <p key={index} className="text-sm text-blue-800 leading-relaxed">
+                        {desc}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
 
             <div className="grid gap-3 mb-4">
               <div className="bg-gradient-to-r from-green-100/90 to-emerald-100/90 backdrop-blur-sm border border-green-200/50 rounded-2xl p-4">
