@@ -1350,10 +1350,10 @@ pairs.forEach(pair => {
               
               <div className="space-y-2 sm:space-y-3">
                 {[
-                  { left: 'S', right: 'F', leftLabel: '체계적', rightLabel: '유연함', category: '업무 수행', leftColor: 'from-blue-500 to-blue-600', rightColor: 'from-green-500 to-green-600' },
-                  { left: 'A', right: 'N', leftLabel: '분석적', rightLabel: '직감적', category: '문제 접근', leftColor: 'from-purple-500 to-purple-600', rightColor: 'from-orange-500 to-orange-600' },
-                  { left: 'R', right: 'E', leftLabel: '신중함', rightLabel: '적극적', category: '소통 성향', leftColor: 'from-teal-500 to-teal-600', rightColor: 'from-red-500 to-red-600' },
-                  { left: 'I', right: 'M', leftLabel: '혁신적', rightLabel: '안정적', category: '성과 창출', leftColor: 'from-pink-500 to-pink-600', rightColor: 'from-indigo-500 to-indigo-600' }
+                  { left: 'S', right: 'F', leftLabel: '체계적(Structured)', rightLabel: '유연함(Flexible)', category: '업무 수행', leftColor: 'from-blue-500 to-blue-600', rightColor: 'from-green-500 to-green-600' },
+                  { left: 'A', right: 'N', leftLabel: '분석적(Analytical)', rightLabel: '직감적(iNtuitive)', category: '문제 접근', leftColor: 'from-purple-500 to-purple-600', rightColor: 'from-orange-500 to-orange-600' },
+                  { left: 'R', right: 'E', leftLabel: '신중함(Reserved)', rightLabel: '적극적(Expressive)', category: '소통 성향', leftColor: 'from-teal-500 to-teal-600', rightColor: 'from-red-500 to-red-600' },
+                  { left: 'I', right: 'M', leftLabel: '혁신적(Initiative)', rightLabel: '안정적(Managing)', category: '성과 창출', leftColor: 'from-pink-500 to-pink-600', rightColor: 'from-indigo-500 to-indigo-600' }
                 ].map((pair, index) => (
                   <div key={index} className="bg-white/70 rounded-xl p-3 sm:p-4 border border-slate-200/50">
                     <div className="flex justify-between items-center mb-2">
